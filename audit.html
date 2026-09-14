@@ -17,7 +17,7 @@
     :root{--nav:#7f1d1d;--blue:#dc2626;--bg:#fff7f7;--card:#fff;--text:#2b1717;--muted:#785f5f;--line:#ead6d6;--green:#16a34a;--amber:#d97706;--red:#dc2626;--soft:#fff5f5}
     *{box-sizing:border-box} body{margin:0;font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text)}
     .app{min-height:100vh}.topnav{height:68px;background:linear-gradient(90deg,var(--nav),#b91c1c);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20;box-shadow:0 3px 12px rgba(127,29,29,.2)}
-    .brand{font-weight:700;font-size:18px}.brand small{display:block;color:#fee2e2;font-size:11px;font-weight:500}.user-chip{display:flex;align-items:center;gap:10px;font-size:13px}.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fee2e2;color:#991b1b;font-weight:700}.role{color:#fecaca;font-size:11px}.admin-login{border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.12);color:#fff;border-radius:8px;padding:8px 12px;text-decoration:none;font-size:12px;font-weight:600}.admin-login:hover{background:rgba(255,255,255,.22)}
+    .brand{font-weight:700;font-size:18px;display:flex;align-items:center}.brand small{display:block;color:#fee2e2;font-size:11px;font-weight:500}.user-chip{display:flex;align-items:center;gap:10px;font-size:13px}.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fee2e2;color:#991b1b;font-weight:700}.role{color:#fecaca;font-size:11px}.admin-login{border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.12);color:#fff;border-radius:8px;padding:8px 12px;text-decoration:none;font-size:12px;font-weight:600}.admin-login:hover{background:rgba(255,255,255,.22)}
     .page{max-width:1480px;margin:auto;padding:22px}.page-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:16px}.page-head h1{margin:0;font-size:26px}.page-head p{margin:4px 0 0;color:var(--muted);font-size:13px}.toolbar{display:flex;flex-wrap:wrap;gap:8px}.btn{border:1px solid var(--line);border-radius:9px;background:#fff;height:40px;padding:0 14px;font:inherit;font-size:13px;cursor:pointer}.btn.primary,.btn.success{background:var(--blue);color:#fff;border-color:var(--blue)}.btn:hover{filter:brightness(.98)}
     .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 5px 16px rgba(127,29,29,.06);margin-bottom:14px}.card-title{font-weight:700;margin-bottom:12px;color:#991b1b}.filters{display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:12px}.field label{display:block;font-size:12px;font-weight:600;color:#6b3030;margin-bottom:5px}.field input,.field select{width:100%;height:40px;border:1px solid var(--line);border-radius:8px;padding:0 10px;font:inherit;background:#fff}.field input:focus,.field select:focus,.comment:focus,.custom-q:focus{outline:2px solid #fecaca;border-color:#ef4444}
     .summary{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.metric{border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:11px}.metric span{display:block;font-size:11px;color:var(--muted)}.metric b{font-size:20px}.progress-track{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:7px}.progress-track i{display:block;height:100%;background:var(--blue);width:0}
@@ -37,7 +37,6 @@
     }
     @media print{
       @page{size:A4 landscape;margin:8mm}.topnav,.page-head,.no-print,.summary-card{display:none!important}body{background:#fff}.page{padding:0;max-width:none}.card{box-shadow:none;border:0;padding:0;margin:0}.print-title{display:block;text-align:center;margin-bottom:8px}.print-title h2{margin:0;font-size:15px}.print-meta{font-size:9px;margin-top:4px}.table-wrap{overflow:visible;border:1px solid #444;border-radius:0}.audit-table{min-width:0;font-size:7.5px}.audit-table thead th{position:static;background:#eee!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.audit-table th,.audit-table td{padding:3px;border-color:#777}.section-row td{background:#ddd!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.comment{border:0;min-height:18px;padding:0}.custom-q{border:0;padding:0}.choice label{border:0;min-width:20px;height:18px}.choice input:not(:checked)+label{color:#bbb}.choice input:checked+label{font-weight:700;background:transparent!important;box-shadow:none}.hint{display:none}}
-    .brand{display:flex;align-items:center;gap:12px}.brand-logo{display:block;width:128px;height:42px;object-fit:contain;background:#fff;border-radius:7px;padding:5px}@media(max-width:700px){.brand{gap:7px}.brand-logo{width:88px;height:34px}}
 
     .evaluation-rating{margin-top:14px;border:1px solid #333;background:#fff;overflow:hidden}.evaluation-title{text-align:center;font-weight:700;font-size:15px;padding:6px;border-bottom:1px solid #333}.evaluation-grid{display:grid;grid-template-columns:105px 1fr 70px}.evaluation-cell{border-right:1px solid #333;border-bottom:1px solid #333;padding:7px 9px;font-size:11px;line-height:1.45}.evaluation-cell:nth-child(3n){border-right:0}.evaluation-grid .evaluation-cell:nth-last-child(-n+3){border-bottom:0}.evaluation-score{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:16px}.evaluation-total{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700}.evaluation-green{background:#00b050;color:#000}.evaluation-yellow{background:#ffff00;color:#000}.evaluation-red{background:#ff0000;color:#000}.evaluation-cell b{font-size:12px}.evaluation-cell ul{margin:3px 0 0 16px;padding:0}.evaluation-cell li{margin:1px 0}@media(max-width:700px){.evaluation-grid{grid-template-columns:82px 1fr 54px}.evaluation-cell{font-size:9px;padding:6px}.evaluation-score{font-size:13px}}@media print{.evaluation-rating{break-inside:avoid;margin-top:6px}.evaluation-title{font-size:9px;padding:3px}.evaluation-cell{font-size:6.5px;padding:3px}.evaluation-score{font-size:9px}.evaluation-green,.evaluation-yellow,.evaluation-red{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
   </style>
@@ -45,7 +44,7 @@
 <body>
 <div class="app">
   <header class="topnav">
-    <div class="brand"><img class="brand-logo" src="astemo-logo.png" alt="Astemo"><span>LAYERED PROCESS AUDIT<small>EMPLOYEE AUDIT FORM</small></span></div>
+    <div class="brand"><span>LAYERED PROCESS AUDIT<small>EMPLOYEE AUDIT FORM</small></span></div>
     <div class="user-chip"><div><b>หน้าสำหรับพนักงาน</b><div class="role">กรอกและส่งผลการ Audit</div></div><a class="admin-login no-print" href="login.html">Admin Login</a></div>
   </header>
 
@@ -85,7 +84,7 @@
     </section>
 
     <section class="card" id="printArea">
-      <div class="print-title"><img src="astemo-logo.png" alt="Astemo" style="width:110px;height:34px;object-fit:contain"><h2>Layered Process Audit (LPA)</h2><div class="print-meta" id="printMeta"></div></div>
+      <div class="print-title"><h2>Layered Process Audit (LPA)</h2><div class="print-meta" id="printMeta"></div></div>
       <div class="table-wrap">
         <table class="audit-table">
           <thead><tr><th class="question">QUESTION</th><th>N/A</th><th>😊</th><th>😐</th><th>😒</th><th class="comment">COMMENTS</th></tr></thead>
@@ -210,7 +209,6 @@ function save(show=true){try{localStorage.setItem(storageKey(),JSON.stringify({m
 let timer;function debouncedSave(){clearTimeout(timer);timer=setTimeout(()=>save(false),500)} function autoSave(){save(false)}
 function loadCurrent(){const raw=localStorage.getItem(storageKey());if(!raw)return;try{const d=JSON.parse(raw);Object.assign(state.answers,d.state?.answers||{});Object.assign(state.comments,d.state?.comments||{});Object.assign(state.custom,d.state?.custom||{});Object.assign(state.images,d.state?.images||{});if(d.meta)metaIds.forEach(id=>{if(d.meta[id]!=null)document.getElementById(id).value=d.meta[id]});renderTable()}catch(e){console.warn(e)}}
 
-
 function questionMap(){
   const out={}; let idx=0;
   sections.forEach(sec=>{
@@ -246,7 +244,8 @@ async function submitAudit(){
     const ref=firebase.database().ref('lpaAudits').push();
     await ref.set({id:ref.key,createdAt:new Date().toISOString(),...payload});
     localStorage.removeItem(storageKey());
-    alert(`ส่งข้อมูลเข้าสู่ระบบเรียบร้อยแล้ว\nคะแนนรวม ${score.toFixed(1)}%`);
+    alert(`ส่งข้อมูลเข้าสู่ระบบเรียบร้อยแล้ว\
+คะแนนรวม ${score.toFixed(1)}%`);
     resetAuditForm();
   }catch(e){alert(e.message)}finally{btn.disabled=false;btn.textContent='ส่งข้อมูล'}
 }
