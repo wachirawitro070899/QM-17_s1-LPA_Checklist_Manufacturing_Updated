@@ -38,7 +38,7 @@
     @media print{
       @page{size:A4 landscape;margin:8mm}.topnav,.page-head,.no-print,.summary-card{display:none!important}body{background:#fff}.page{padding:0;max-width:none}.card{box-shadow:none;border:0;padding:0;margin:0}.print-title{display:block;text-align:center;margin-bottom:8px}.print-title h2{margin:0;font-size:15px}.print-meta{font-size:9px;margin-top:4px}.table-wrap{overflow:visible;border:1px solid #444;border-radius:0}.audit-table{min-width:0;font-size:7.5px}.audit-table thead th{position:static;background:#eee!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.audit-table th,.audit-table td{padding:3px;border-color:#777}.section-row td{background:#ddd!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.comment{border:0;min-height:18px;padding:0}.custom-q{border:0;padding:0}.choice label{border:0;min-width:20px;height:18px}.choice input:not(:checked)+label{color:#bbb}.choice input:checked+label{font-weight:700;background:transparent!important;box-shadow:none}.hint{display:none}}
 
-    .evaluation-rating{margin-top:14px;border:1px solid #333;background:#fff;overflow:hidden}.evaluation-title{text-align:center;font-weight:700;font-size:15px;padding:6px;border-bottom:1px solid #333}.evaluation-grid{display:grid;grid-template-columns:105px 1fr 70px}.evaluation-cell{border-right:1px solid #333;border-bottom:1px solid #333;padding:7px 9px;font-size:11px;line-height:1.45}.evaluation-cell:nth-child(3n){border-right:0}.evaluation-grid .evaluation-cell:nth-last-child(-n+3){border-bottom:0}.evaluation-score{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:16px}.evaluation-total{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700}.evaluation-green{background:#00b050;color:#000}.evaluation-yellow{background:#ffff00;color:#000}.evaluation-red{background:#ff0000;color:#000}.evaluation-cell b{font-size:12px}.evaluation-cell ul{margin:3px 0 0 16px;padding:0}.evaluation-cell li{margin:1px 0}@media(max-width:700px){.evaluation-grid{grid-template-columns:82px 1fr 54px}.evaluation-cell{font-size:9px;padding:6px}.evaluation-score{font-size:13px}}@media print{.evaluation-rating{break-inside:avoid;margin-top:6px}.evaluation-title{font-size:9px;padding:3px}.evaluation-cell{font-size:6.5px;padding:3px}.evaluation-score{font-size:9px}.evaluation-green,.evaluation-yellow,.evaluation-red{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+    .evaluation-rating{margin-top:14px;border:1px solid #333;background:#fff;overflow:hidden}.evaluation-title{text-align:center;font-weight:700;font-size:14px;padding:7px;border-bottom:1px solid #333;background:#e7b6b6}.evaluation-grid{display:grid;grid-template-columns:185px 205px 1fr}.evaluation-cell{border-right:1px solid #333;border-bottom:1px solid #333;padding:7px 9px;font-size:11px;line-height:1.35}.evaluation-grid .evaluation-cell:nth-child(3n){border-right:0}.evaluation-grid .evaluation-cell:nth-last-child(-n+3){border-bottom:0}.evaluation-score{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:13px;background:#f8e8e8}.evaluation-status{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:12px}.evaluation-desc{font-style:italic;display:flex;align-items:center}.evaluation-green{background:#8cff51;color:#000}.evaluation-yellow{background:#fff600;color:#000}.evaluation-red{background:#ff1208;color:#000}.evaluation-live{display:flex;align-items:center;justify-content:center;gap:8px;border-top:1px solid #333;padding:9px 12px;font-weight:800;font-size:14px}.evaluation-live strong{font-size:18px}.evaluation-live.green{background:#8cff51}.evaluation-live.yellow{background:#fff600}.evaluation-live.red{background:#ff1208}.evaluation-live.neutral{background:#f3f4f6}.evaluation-cell b{font-size:12px}@media(max-width:700px){.evaluation-grid{grid-template-columns:88px 120px 1fr}.evaluation-cell{font-size:9px;padding:6px}.evaluation-score{font-size:11px}.evaluation-live{font-size:12px}.evaluation-live strong{font-size:16px}}@media print{.evaluation-rating{break-inside:avoid;margin-top:6px}.evaluation-title{font-size:8px;padding:3px}.evaluation-cell{font-size:6px;padding:3px}.evaluation-score{font-size:7px}.evaluation-live{font-size:7px;padding:4px}.evaluation-live strong{font-size:8px}.evaluation-green,.evaluation-yellow,.evaluation-red,.evaluation-title,.evaluation-live{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
   </style>
 </head>
 <body>
@@ -93,20 +93,24 @@
       </div>
 
       <section class="evaluation-rating" id="evaluationRating">
-        <div class="evaluation-title">Evaluation rating</div>
+        <div class="evaluation-title">Evaluation rating &nbsp;&nbsp; (If issues found, corrective actions must be always implemented)</div>
         <div class="evaluation-grid">
-          <div class="evaluation-cell evaluation-score evaluation-green">&ge;90%</div>
-          <div class="evaluation-cell"><b>Acceptable</b><ul><li>Unsatisfactory &lt; 4 items</li><li>Corrected &lt; 7 items</li><li>Or equivalent cases</li></ul></div>
-          <div class="evaluation-cell evaluation-total">Total</div>
-          <div class="evaluation-cell evaluation-score evaluation-yellow">&ge;75% &amp; &lt;90%</div>
-          <div class="evaluation-cell"><b>Acceptable with restrictions</b><ul><li>New LPA is required to verify corrective actions within a maximum of 24 hours.</li><li>If the re-evaluation result remains Yellow, classify the result as Unacceptable.</li></ul></div>
-          <div class="evaluation-cell evaluation-total">Total</div>
-          <div class="evaluation-cell evaluation-score evaluation-red">&lt;75%</div>
-          <div class="evaluation-cell"><b>Unacceptable</b><ul><li>If Unsatisfactory &gt; 8 items or equivalent, define and perform an Internal Process Audit.</li></ul></div>
-          <div class="evaluation-cell evaluation-total">Total</div>
+          <div class="evaluation-cell evaluation-score">&ge; 90%</div>
+          <div class="evaluation-cell evaluation-status evaluation-green">Acceptable</div>
+          <div class="evaluation-cell evaluation-desc evaluation-green">Acceptable (less than 4 "unsatisfactory", or less than 7 "corrected", or any equivalent combination)</div>
+
+          <div class="evaluation-cell evaluation-score">&ge; 75% &amp; &lt; 90%</div>
+          <div class="evaluation-cell evaluation-status evaluation-yellow">Acceptable<br>with restrictions</div>
+          <div class="evaluation-cell evaluation-desc evaluation-yellow">New LPA should be performed to verify the actions implementation in maximum 24 hours. This new LPA should be considered as Unacceptable if is rated again as Yellow.</div>
+
+          <div class="evaluation-cell evaluation-score">&lt; 75%</div>
+          <div class="evaluation-cell evaluation-status evaluation-red">Unacceptable</div>
+          <div class="evaluation-cell evaluation-desc evaluation-red">over 8 "unsatisfactory", or equivalent combination, Internal process audit must be scheduled and performed.</div>
         </div>
+        <div class="evaluation-live neutral" id="evaluationLive">Current score: <strong id="evaluationPercent">0.0%</strong></div>
       </section>
-      <div class="hint no-print">เลือกผลได้ 1 ค่า/ข้อ สามารถบันทึกร่างไว้ในเครื่อง หรือกด “ส่งข้อมูล” เพื่อบันทึกเข้าระบบหลังบ้าน</div>
+      
+<div class="hint no-print">เลือกผลได้ 1 ค่า/ข้อ สามารถบันทึกร่างไว้ในเครื่อง หรือกด “ส่งข้อมูล” เพื่อบันทึกเข้าระบบหลังบ้าน</div>
       <div class="submit-footer no-print"><button class="btn success" id="submitBtn">ส่งข้อมูล</button></div>
     </section>
   </main>
@@ -185,7 +189,7 @@ function renderTable(){
      const image=state.images[id]||'';
      html += `<tr data-qid="${id}"><td>${qHtml}</td>${choiceCell(id,'na','N/A','na')}${choiceCell(id,'ok','😊','ok')}${choiceCell(id,'observe','😐','observe')}${choiceCell(id,'ng','😒','ng')}<td><textarea class="comment" data-id="${id}" placeholder="Comments / หลักฐาน">${esc(state.comments[id]||'')}</textarea><div class="evidence-tools"><label class="evidence-add" for="image_${id}">📷 แนบรูป</label><input class="evidence-input" id="image_${id}" data-id="${id}" type="file" accept="image/*" capture="environment">${image?`<button class="evidence-remove" type="button" data-remove-image="${id}">ลบรูป</button>`:''}</div>${image?`<img class="evidence-preview" src="${image}" alt="รูปหลักฐาน">`:''}</td></tr>`;
      idx++;
-   });
+  });
  });
  document.getElementById('auditBody').innerHTML=html;
  bindRows(); updateSummary();
@@ -201,7 +205,7 @@ function bindRows(){
 function compressImage(file){return new Promise((resolve,reject)=>{if(!file.type.startsWith('image/'))return reject(new Error('กรุณาเลือกไฟล์รูปภาพ'));const reader=new FileReader();reader.onerror=()=>reject(new Error('อ่านรูปไม่สำเร็จ'));reader.onload=()=>{const img=new Image();img.onerror=()=>reject(new Error('รูปภาพไม่ถูกต้อง'));img.onload=()=>{const max=1280,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);const data=canvas.toDataURL('image/jpeg',.7);if(data.length>700000)return reject(new Error('รูปมีขนาดใหญ่เกินไป กรุณาเลือกรูปอื่น'));resolve(data)};img.src=reader.result};reader.readAsDataURL(file)})}
 function totalItems(){return sections.reduce((n,s)=>n+(s.items?s.items.length:s.custom),0)}
 function scorePercent(vals=Object.values(state.answers)){const ok=vals.filter(v=>v==='ok').length,observe=vals.filter(v=>v==='observe').length,ng=vals.filter(v=>v==='ng').length,scored=ok+observe+ng;return scored?Math.round(((ok*2+observe)/(scored*2))*1000)/10:0}
-function updateSummary(){const vals=Object.values(state.answers);const t=totalItems(),a=vals.length;document.getElementById('mTotal').textContent=t;document.getElementById('mAnswered').textContent=a;document.getElementById('mOk').textContent=vals.filter(v=>v==='ok').length;document.getElementById('mObserve').textContent=vals.filter(v=>v==='observe').length;document.getElementById('mNg').textContent=vals.filter(v=>v==='ng').length;document.getElementById('progressBar').style.width=(t?a/t*100:0)+'%'}
+function updateSummary(){const vals=Object.values(state.answers);const t=totalItems(),a=vals.length;document.getElementById('mTotal').textContent=t;document.getElementById('mAnswered').textContent=a;document.getElementById('mOk').textContent=vals.filter(v=>v==='ok').length;document.getElementById('mObserve').textContent=vals.filter(v=>v==='observe').length;document.getElementById('mNg').textContent=vals.filter(v=>v==='ng').length;document.getElementById('progressBar').style.width=(t?a/t*100:0)+'%';const score=scorePercent(vals);const pct=document.getElementById('evaluationPercent');const live=document.getElementById('evaluationLive');if(pct)pct.textContent=score.toFixed(1)+'%';if(live){live.classList.remove('green','yellow','red','neutral');const scored=vals.some(v=>v==='ok'||v==='observe'||v==='ng');live.classList.add(!scored?'neutral':score>=90?'green':score>=75?'yellow':'red')}}
 function meta(){return Object.fromEntries(metaIds.map(id=>[id,document.getElementById(id).value]))}
 function storageKey(){return 'lpaAudit:'+((document.getElementById('auditNo').value||'draft').trim())}
 function save(show=true){try{localStorage.setItem(storageKey(),JSON.stringify({meta:meta(),state,updatedAt:new Date().toISOString()}))}catch(e){if(show)alert('พื้นที่บันทึกร่างในเครื่องเต็ม กรุณาลดจำนวนรูป')}if(show){const el=document.getElementById('savedMsg');el.textContent='บันทึกร่างแล้วในเครื่องนี้';setTimeout(()=>el.textContent='',2200)}}
@@ -213,7 +217,7 @@ function questionMap(){
   sections.forEach(sec=>{
     const items=sec.items||Array.from({length:sec.custom},(_,i)=>state.custom['q'+(idx+i)]||`10.${i+1}`);
     items.forEach(q=>{out['q'+idx]=q;idx++});
-  });
+ });
   return out;
 }
 function requiredQuestionIds(){
@@ -221,7 +225,7 @@ function requiredQuestionIds(){
   sections.forEach(sec=>{
     if(sec.items){sec.items.forEach(()=>ids.push('q'+idx++));}
     else{for(let i=0;i<sec.custom;i++){const id='q'+idx++;if((state.custom[id]||'').trim())ids.push(id)}}
-  });
+ });
   return ids;
 }
 async function submitAudit(){
