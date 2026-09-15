@@ -247,8 +247,7 @@ async function submitAudit(){
     const ref=firebase.database().ref('lpaAudits').push();
     await ref.set({id:ref.key,createdAt:new Date().toISOString(),...payload});
     localStorage.removeItem(storageKey());
-    alert(`ส่งข้อมูลเข้าสู่ระบบเรียบร้อยแล้ว\
-คะแนนรวม ${score.toFixed(1)}%`);
+    alert('ส่งข้อมูลให้ Admin เรียบร้อยแล้วครับ/ค่ะ');
     resetAuditForm();
   }catch(e){alert(e.message)}finally{btn.disabled=false;btn.textContent='ส่งข้อมูล'}
 }
