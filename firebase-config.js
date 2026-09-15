@@ -27,16 +27,16 @@ window.LPA_FIREBASE_CONFIG = {
     if(!line||!filters)return;
     const date=document.getElementById('auditDate');
     if(date&&!date.dataset.visibleDateInstalled){date.dataset.visibleDateInstalled='1';date.type='date';const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());const today=d.toISOString().slice(0,10);date.value=today;date.min=today;date.max=today;date.readOnly=false;const field=document.createElement('div');field.className='field';field.id='auditDateField';field.innerHTML='<label>Date / วันที่ Audit</label>';date.parentNode.insertBefore(field,date);field.appendChild(date);filters.insertBefore(field,filters.firstChild);const enforce=()=>{if(date.value!==today)date.value=today;};date.addEventListener('input',enforce);date.addEventListener('change',enforce);}
-    const auditee=document.getElementById('auditee');const auditeeByArea={1:'Pratoomchai',2:'Somkid',4:'Pratoomchai',5:'Somkid',6:'Narin',7:'Natthawat',8:'Pratoomchai',9:'Watcharee',10:'Teeraporn',11:'Ongard',12:'Wuttipat'};
+    const auditee=document.getElementById('auditee');const level=document.getElementById('level');const auditeeByArea={1:'Pratoomchai',2:'Somkid',4:'Pratoomchai',5:'Somkid',6:'Narin',7:'Natthawat',8:'Pratoomchai',9:'Watcharee',10:'Teeraporn',11:'Ongard',12:'Wuttipat'};
     const areaNumber=v=>{const m=String(v||'').match(/^Area\s+(\d+)\b/i);return m?Number(m[1]):null;};
-    function syncAuditee(){if(!auditee)return;const name=auditeeByArea[areaNumber(line.value)]||'';auditee.value=name;auditee.readOnly=!!name;}
+    function syncAuditee(){if(!auditee)return;if(level?.value==='Level 1'){if(auditee.readOnly)auditee.value='';auditee.readOnly=false;auditee.placeholder='พิมพ์ชื่อผู้รับการตรวจ';return;}const name=auditeeByArea[areaNumber(line.value)]||'';auditee.value=name;auditee.readOnly=!!name;auditee.placeholder=name?'':'ชื่อผู้รับการตรวจ';}
     document.getElementById('workstationProductionField')?.remove();document.getElementById('workstationField')?.remove();document.getElementById('productionField')?.remove();
     const wf=document.createElement('div');wf.className='field';wf.id='workstationField';wf.innerHTML='<label>Workstation</label><input id="workstation" type="text" readonly placeholder="เลือก Line ก่อน">';
     const pf=document.createElement('div');pf.className='field';pf.id='productionField';pf.innerHTML='<label>Production</label><input id="production" type="text" readonly placeholder="เลือก Line ก่อน">';
     const lf=line.closest('.field');if(lf){lf.insertAdjacentElement('afterend',pf);lf.insertAdjacentElement('afterend',wf);}else{filters.appendChild(wf);filters.appendChild(pf);}
     const workstation=document.getElementById('workstation'),production=document.getElementById('production');const fixed={5:'U375 / Thinbride / APB-Mi Op10',6:'T6 / PBR / P2-30A / APB-Mi Op20',8:'U375 / P2-30A / Thin bride / APB-Mi'};
     function syncFields(){const area=areaNumber(line.value);const clean=String(line.value||'').replace(/^Area\s+\d+\s*/i,'').trim();const value=fixed[area]||clean;workstation.value=value;production.value=value;syncAuditee();}
-    line.addEventListener('change',syncFields);syncFields();
+    line.addEventListener('change',syncFields);level?.addEventListener('change',syncAuditee);syncFields();
     if(!document.getElementById('lpaQuickStyles')){const s=document.createElement('style');s.id='lpaQuickStyles';s.textContent='#auditee[readonly],#workstation[readonly],#production[readonly]{background:#f3f4f6;color:#374151;font-weight:700;cursor:not-allowed}#auditDate{font-weight:700;cursor:pointer}.validation-error{outline:3px solid #ef4444!important;background:#fff1f2!important}';document.head.appendChild(s);}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
