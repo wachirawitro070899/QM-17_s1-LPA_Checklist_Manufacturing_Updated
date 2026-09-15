@@ -228,6 +228,20 @@ function requiredQuestionIds(){
  });
   return ids;
 }
+function showSubmitSuccess(){
+  const overlay=document.createElement('div');
+  overlay.setAttribute('role','dialog');
+  overlay.setAttribute('aria-modal','true');
+  overlay.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(43,23,23,.42);display:grid;place-items:center;padding:20px';
+  overlay.innerHTML='<div style="width:min(430px,100%);background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.25);padding:24px;text-align:center"><div style="font-size:44px;line-height:1">✅</div><div style="font-size:18px;font-weight:700;margin:14px 0 20px;color:#2b1717">ส่งข้อมูลให้ Admin เรียบร้อยแล้วครับ/ค่ะ</div><button type="button" style="border:0;border-radius:9px;background:#7f1d1d;color:#fff;font:inherit;font-weight:700;padding:10px 28px;cursor:pointer">ตกลง</button></div>';
+  const close=()=>overlay.remove();
+  overlay.querySelector('button').addEventListener('click',close);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+  document.addEventListener('keydown',function onKey(e){if(e.key==='Escape'||e.key==='Enter'){document.removeEventListener('keydown',onKey);close()}});
+  document.body.appendChild(overlay);
+  overlay.querySelector('button').focus();
+}
+
 async function submitAudit(){
   document.getElementById('auditDate').value=todayLocal();
   const m=meta();
@@ -247,7 +261,7 @@ async function submitAudit(){
     const ref=firebase.database().ref('lpaAudits').push();
     await ref.set({id:ref.key,createdAt:new Date().toISOString(),...payload});
     localStorage.removeItem(storageKey());
-    alert('ส่งข้อมูลให้ Admin เรียบร้อยแล้วครับ/ค่ะ');
+    showSubmitSuccess();
     resetAuditForm();
   }catch(e){alert(e.message)}finally{btn.disabled=false;btn.textContent='ส่งข้อมูล'}
 }
