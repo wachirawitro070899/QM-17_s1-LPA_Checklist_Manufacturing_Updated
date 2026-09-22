@@ -5,11 +5,79 @@ function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt
 function fmtDate(s){try{return new Intl.DateTimeFormat('th-TH',{dateStyle:'medium',timeStyle:'short'}).format(new Date(s))}catch{return s||'-'}}
 function requireAdmin(){if(sessionStorage.getItem('lpa_admin')!=='1'){location.replace('login.html');throw new Error('Unauthorized')}}
 function db(){if(!window.firebase)throw new Error('โหลด Firebase ไม่สำเร็จ');if(!firebase.apps.length)firebase.initializeApp(window.LPA_FIREBASE_CONFIG);return firebase.database()}
-async function boot(){requireAdmin();document.getElementById('who').textContent='เข้าสู่ระบบโดย '+(sessionStorage.getItem('lpa_admin_name')||'Kittiya.thongdee');await load()}
+async function boot(){requireAdmin();document.getElementById('who').textContent='เข้าสู่ระบบโดย '+(sessionStorage.getItem('lpa_admin_name')||'Kittiya.thongdee');await load();startAuditNotifications('lpaAudits','Manufacturing')}
 async function load(){requireAdmin();const snap=await db().ref('lpaAudits').once('value');items=Object.entries(snap.val()||{}).map(([id,x])=>({...x,id:x.id||id})).sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));render()}
 function auditScore(x){if(Number.isFinite(Number(x.summary?.scorePercent)))return Number(x.summary.scorePercent);const ok=Number(x.summary?.ok||0),observe=Number(x.summary?.observe||0),ng=Number(x.summary?.ng||0),scored=ok+observe+ng;return scored?Math.round(((ok*2+observe)/(scored*2))*1000)/10:0}
 function render(){const q=search.value.trim().toLowerCase();const list=items.filter(x=>[x.meta.auditNo,x.meta.unit,x.meta.line,x.meta.level,x.meta.auditor,x.meta.auditee].join(' ').toLowerCase().includes(q));rows.innerHTML=list.map(x=>`<tr><td>${esc(fmtDate(x.createdAt))}</td><td>${esc(x.meta.auditDate)}</td><td>${esc(x.meta.unit)}</td><td>${esc(x.meta.line)}</td><td>${esc(x.meta.level)}</td><td>${esc(x.meta.auditor)}</td><td><b style="color:#b91c1c">${auditScore(x).toFixed(1)}%</b><br><span class="tag">😊 ${x.summary?.ok||0} · 😐 ${x.summary?.observe||0} · 😒 ${x.summary?.ng||0}</span></td><td class="right"><button class="btn" onclick="viewAudit('${x.id}')">ดู</button> <button class="btn danger" onclick="removeAudit('${x.id}','${esc(x.meta.auditNo)}')">ลบ</button></td></tr>`).join('');empty.hidden=list.length>0;cTotal.textContent=items.length;cOk.textContent=items.reduce((n,x)=>n+(x.summary?.ok||0),0);cObs.textContent=items.reduce((n,x)=>n+(x.summary?.observe||0),0);cNg.textContent=items.reduce((n,x)=>n+(x.summary?.ng||0),0)}
 async function viewAudit(id){requireAdmin();const x=items.find(row=>row.id===id);if(!x)return alert('ไม่พบข้อมูล');detailTitle.textContent=`${x.meta.auditNo} · ${auditScore(x).toFixed(1)}%`;const labels={ok:'😊 OK',observe:'😐 Observation',ng:'😒 NG',na:'N/A'};const allIds=Array.from(new Set([...Object.keys(x.state?.answers||{}),...Object.keys(x.state?.comments||{}),...Object.keys(x.state?.images||{}),...Object.keys(x.state?.questions||{}),...Object.keys(x.state?.custom||{})])).sort((a,b)=>Number(a.slice(1))-Number(b.slice(1)));detailBody.innerHTML=`<div class="meta-grid"><div><b>วันที่ Audit</b><br>${esc(x.meta.auditDate)}</div><div><b>หน่วยงาน</b><br>${esc(x.meta.unit)}</div><div><b>Line / Area</b><br>${esc(x.meta.line)}</div><div><b>Level</b><br>${esc(x.meta.level)}</div><div><b>Auditor</b><br>${esc(x.meta.auditor)}</div><div><b>Auditee</b><br>${esc(x.meta.auditee||'-')}</div><div><b>คะแนนรวม</b><br><b style="color:#b91c1c">${auditScore(x).toFixed(1)}%</b></div><div><b>ส่งเมื่อ</b><br>${esc(fmtDate(x.createdAt))}</div></div><section class="signature-section"><div class="signature-section-title">ลายเซ็นยืนยัน / Final Confirmation</div><div class="signature-grid"><div class="signature-card"><b>Auditor Signature / ลายเซ็นผู้ตรวจ</b>${x.signatures?.auditor?`<img class="signature-image" src="${esc(x.signatures.auditor)}" alt="ลายเซ็น Auditor">`:'<div class="signature-missing">รายการนี้ไม่มีข้อมูลลายเซ็น</div>'}</div><div class="signature-card"><b>Auditee Signature / ลายเซ็นผู้รับการตรวจ</b>${x.signatures?.auditee?`<img class="signature-image" src="${esc(x.signatures.auditee)}" alt="ลายเซ็น Auditee">`:'<div class="signature-missing">รายการนี้ไม่มีข้อมูลลายเซ็น</div>'}</div></div></section>`+allIds.map(id=>{const a=x.state.answers?.[id]||'';const q=x.state.questions?.[id]||x.state.custom?.[id]||id;const image=x.state.images?.[id];return `<div class="question"><div>${esc(q)}</div><div class="answer ${esc(a)}">${esc(labels[a]||'ยังไม่ตอบ')}</div>${x.state.comments?.[id]?`<div class="muted">Comment: ${esc(x.state.comments[id])}</div>`:''}${image?`<img src="${image}" alt="รูปหลักฐาน" style="display:block;max-width:280px;max-height:220px;margin-top:8px;border-radius:8px;border:1px solid #dfe6ef;object-fit:contain">`:''}</div>`}).join('');detail.showModal()}
 async function removeAudit(id,no){requireAdmin();if(!confirm(`ลบข้อมูล ${no} ?`))return;await db().ref('lpaAudits/'+id).remove();await load()}
 search.addEventListener('input',render);refresh.onclick=()=>load().catch(e=>alert(e.message));logout.onclick=()=>{sessionStorage.removeItem('lpa_admin');sessionStorage.removeItem('lpa_admin_name');location.replace('login.html')};boot().catch(e=>{console.error(e);if(e.message!=='Unauthorized')alert('โหลดข้อมูลไม่สำเร็จ: '+e.message)});
+
+function startAuditNotifications(databasePath,auditLabel){
+  if(window.__lpaNotificationStarted)return;
+  window.__lpaNotificationStarted=true;
+  const knownIds=new Set(items.map(item=>String(item.id||'')));
+  const originalTitle=document.title;
+  let unread=0;
+
+  const badge=document.createElement('button');
+  badge.type='button';
+  badge.id='newAuditBadge';
+  badge.textContent='🔔 ไม่มี Audit ใหม่';
+  badge.style.cssText='position:fixed;right:18px;bottom:18px;z-index:9000;border:0;border-radius:999px;background:#7f1d1d;color:#fff;padding:12px 17px;font:inherit;font-weight:700;box-shadow:0 8px 24px #0003;cursor:pointer';
+  badge.addEventListener('click',()=>{
+    unread=0;
+    badge.textContent='🔔 ไม่มี Audit ใหม่';
+    badge.style.background='#7f1d1d';
+    document.title=originalTitle;
+  });
+  document.body.appendChild(badge);
+
+  function notifyNewAudit(item){
+    unread+=1;
+    badge.textContent='🔔 Audit ใหม่ '+unread+' รายการ';
+    badge.style.background='#dc2626';
+    document.title='('+unread+') Audit ใหม่ – '+auditLabel;
+
+    const oldToast=document.getElementById('newAuditToast');
+    if(oldToast)oldToast.remove();
+    const meta=item.meta||{},summary=item.summary||{};
+    const toast=document.createElement('div');
+    toast.id='newAuditToast';
+    toast.setAttribute('role','alert');
+    toast.style.cssText='position:fixed;top:86px;right:18px;z-index:9001;width:min(390px,calc(100vw - 36px));background:#fff;border:2px solid #dc2626;border-radius:14px;padding:16px;box-shadow:0 16px 40px #0004;color:#2b1717';
+    toast.innerHTML='<div style="font-size:17px;font-weight:800;color:#991b1b;margin-bottom:7px">🔔 มี Layered Audit ใหม่ – '+auditLabel+'</div>'+
+      '<div style="font-size:13px;line-height:1.65">Area: <b>'+escapeNotificationText(meta.line||'-')+'</b><br>Auditor: <b>'+escapeNotificationText(meta.auditor||'-')+'</b><br>Score: <b>'+escapeNotificationText(summary.scorePercent==null?'-':summary.scorePercent+'%')+'</b> · NC: <b>'+escapeNotificationText(summary.ng||0)+'</b></div>'+
+      '<button type="button" style="margin-top:11px;border:0;border-radius:8px;background:#7f1d1d;color:#fff;padding:8px 16px;font:inherit;font-weight:700;cursor:pointer">รับทราบ</button>';
+    toast.querySelector('button').addEventListener('click',()=>toast.remove());
+    document.body.appendChild(toast);
+    setTimeout(()=>toast.remove(),15000);
+
+    try{
+      const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+      if(AudioContextClass){
+        const audioContext=new AudioContextClass(),oscillator=audioContext.createOscillator(),gain=audioContext.createGain();
+        oscillator.connect(gain);gain.connect(audioContext.destination);oscillator.frequency.value=880;gain.gain.value=.06;
+        oscillator.start();oscillator.stop(audioContext.currentTime+.18);
+      }
+    }catch(error){console.debug('Notification sound unavailable',error)}
+  }
+
+  function escapeNotificationText(value){
+    return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  }
+
+  const database=(typeof db==='function')?db():getDatabase();
+  database.ref(databasePath).on('child_added',snapshot=>{
+    const id=String(snapshot.key||'');
+    if(knownIds.has(id))return;
+    knownIds.add(id);
+    const item={...(snapshot.val()||{}),id};
+    items.unshift(item);
+    items.sort((first,second)=>String(second.createdAt||'').localeCompare(String(first.createdAt||'')));
+    render();
+    notifyNewAudit(item);
+  },error=>console.error('Audit notification error',error));
+}
+
 </script></body></html>
