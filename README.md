@@ -1,4 +1,4 @@
-# LPA / Process Audit App - GitHub Pages + Firebase
+# QM-17_s1-LPA_Checklist_Manufacturing_Updated
 
 ระบบถูกแยกเป็น 2 ส่วนชัดเจน:
 
