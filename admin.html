@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Manufacturing LPA Admin</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
-:root{--nav:#7f1d1d;--blue:#dc2626;--bg:#fff7f7;--line:#ead6d6;--muted:#785f5f;--red:#dc2626}*{box-sizing:border-box}body{margin:0;font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:#2b1717}.nav{min-height:68px;background:linear-gradient(90deg,var(--nav),#b91c1c);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;gap:16px}.wrap{max-width:1320px;margin:auto;padding:24px}.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 13px;cursor:pointer;font:inherit}.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.danger{color:var(--red)}.muted{color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.card{background:#fff;box-shadow:0 5px 16px rgba(127,29,29,.06);border:1px solid var(--line);border-radius:14px;padding:16px}.card span{display:block;color:var(--muted);font-size:12px}.card b{font-size:25px}.panel{background:#fff;box-shadow:0 5px 16px rgba(127,29,29,.06);border:1px solid var(--line);border-radius:14px;padding:16px}.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px}.toolbar input{width:min(430px,100%);height:40px;border:1px solid var(--line);border-radius:8px;padding:0 10px;font:inherit}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1000px;font-size:12px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#fee2e2;color:#7f1d1d}.tag{display:inline-block;padding:3px 7px;border-radius:999px;background:#fff1f2}.right{text-align:right}.empty{text-align:center;padding:38px;color:var(--muted)}dialog{width:min(980px,94vw);border:0;border-radius:16px;padding:0;box-shadow:0 30px 80px #0003}dialog::backdrop{background:#0f172a99}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}.modal-body{padding:18px;max-height:76vh;overflow:auto}.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;margin-bottom:14px}.signature-section{margin:16px 0;border:1px solid var(--line);border-radius:12px;padding:14px;background:#fffafa}.signature-section-title{font-weight:700;color:#7f1d1d;margin-bottom:10px}.signature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.signature-card{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;text-align:center}.signature-card b{display:block;margin-bottom:7px}.signature-image{display:block;width:100%;height:120px;object-fit:contain;border:1px dashed #d7bcbc;border-radius:8px;background:#fff}.signature-missing{height:120px;display:grid;place-items:center;border:1px dashed #d7bcbc;border-radius:8px;color:var(--muted);font-size:12px}@media(max-width:600px){.signature-grid{grid-template-columns:1fr}}.question{padding:10px 0;border-bottom:1px solid #f3dada}.answer{font-weight:700}.ok{color:#15803d}.observe{color:#b45309}.ng{color:#b91c1c}.na{color:#64748b}.nav-brand{display:flex;align-items:center}@media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.meta-grid{grid-template-columns:1fr}.wrap{padding:12px}.nav{padding:12px}.toolbar{align-items:stretch;flex-direction:column}}</style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script><script src="firebase-config.js"></script></head><body><div class="nav"><div class="nav-brand"><div><b>Manufacturing LPA Admin</b><div style="font-size:11px;color:#fecaca">ระบบจัดการข้อมูล Layered Process Audit</div></div></div><div class="actions"><button class="btn" onclick="location.href='audit.html'">เปิดหน้ากรอกข้อมูล</button><button class="btn" id="logout">ออกจากระบบ</button></div></div><main class="wrap"><h1 style="margin-bottom:3px">รายการ Audit – Manufacturing</h1><p class="muted" style="margin-top:0">SUPPLEMENT TO PROCEDURE DESCRIPTION - CBI QM-17 s1</p><p class="muted" id="who">กำลังตรวจสอบสิทธิ์...</p><div class="cards"><div class="card"><span>รายการทั้งหมด</span><b id="cTotal">0</b></div><div class="card"><span>OK รวม</span><b id="cOk">0</b></div><div class="card"><span>Observation รวม</span><b id="cObs">0</b></div><div class="card"><span>NG รวม</span><b id="cNg">0</b></div></div><section class="panel"><div class="toolbar"><input id="search" placeholder="ค้นหา Audit No., หน่วยงาน, Area, Level, Auditor, Auditee"><button class="btn primary" id="refresh">รีเฟรช</button></div><div class="table-wrap"><table><thead><tr><th>วันเวลาที่ส่ง</th><th>วันที่ Audit</th><th>หน่วยงาน</th><th>Line / Area</th><th>Level</th><th>Auditor</th><th>ผล</th><th class="right">จัดการ</th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" class="empty" hidden>ยังไม่มีข้อมูล Audit</div></section></main><dialog id="detail"><div class="modal-head"><b id="detailTitle">Audit detail</b><button class="btn" onclick="detail.close()">ปิด</button></div><div class="modal-body" id="detailBody"></div></dialog><script>
+:root{--nav:#7f1d1d;--blue:#dc2626;--bg:#fff7f7;--line:#ead6d6;--muted:#785f5f;--red:#dc2626}*{box-sizing:border-box}body{margin:0;font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:#2b1717}.nav{min-height:68px;background:linear-gradient(90deg,var(--nav),#b91c1c);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;gap:16px}.wrap{max-width:1320px;margin:auto;padding:24px}.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 13px;cursor:pointer;font:inherit}.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.danger{color:var(--red)}.muted{color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.card{background:#fff;box-shadow:0 5px 16px rgba(127,29,29,.06);border:1px solid var(--line);border-radius:14px;padding:16px}.card span{display:block;color:var(--muted);font-size:12px}.card b{font-size:25px}.panel{background:#fff;box-shadow:0 5px 16px rgba(127,29,29,.06);border:1px solid var(--line);border-radius:14px;padding:16px}.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px}.toolbar input{width:min(430px,100%);height:40px;border:1px solid var(--line);border-radius:8px;padding:0 10px;font:inherit}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1000px;font-size:12px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#fee2e2;color:#7f1d1d}.tag{display:inline-block;padding:3px 7px;border-radius:999px;background:#fff1f2}.right{text-align:right}.empty{text-align:center;padding:38px;color:var(--muted)}dialog{width:min(980px,94vw);border:0;border-radius:16px;padding:0;box-shadow:0 30px 80px #0003}dialog::backdrop{background:#0f172a99}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}.modal-body{padding:18px;max-height:76vh;overflow:auto}.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;margin-bottom:14px}.signature-section{margin:16px 0;border:1px solid var(--line);border-radius:12px;padding:14px;background:#fffafa}.signature-section-title{font-weight:700;color:#7f1d1d;margin-bottom:10px}.signature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.signature-card{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;text-align:center}.signature-card b{display:block;margin-bottom:7px}.signature-image{display:block;width:100%;height:120px;object-fit:contain;border:1px dashed #d7bcbc;border-radius:8px;background:#fff}.signature-missing{height:120px;display:grid;place-items:center;border:1px dashed #d7bcbc;border-radius:8px;color:var(--muted);font-size:12px}@media(max-width:600px){.signature-grid{grid-template-columns:1fr}}.question{padding:10px 0;border-bottom:1px solid #f3dada}.answer{font-weight:700}.ok{color:#15803d}.observe{color:#b45309}.ng{color:#b91c1c}.na{color:#64748b}.nav-brand{display:flex;align-items:center}@media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.meta-grid{grid-template-columns:1fr}.wrap{padding:12px}.nav{padding:12px}.toolbar{align-items:stretch;flex-direction:column}}</style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script><script src="firebase-config.js"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script></head><body><div class="nav"><div class="nav-brand"><div><b>Manufacturing LPA Admin</b><div style="font-size:11px;color:#fecaca">ระบบจัดการข้อมูล Layered Process Audit</div></div></div><div class="actions"><button class="btn" onclick="location.href='audit.html'">เปิดหน้ากรอกข้อมูล</button><button class="btn" id="logout">ออกจากระบบ</button></div></div><main class="wrap"><h1 style="margin-bottom:3px">รายการ Audit – Manufacturing</h1><p class="muted" style="margin-top:0">SUPPLEMENT TO PROCEDURE DESCRIPTION - CBI QM-17 s1</p><p class="muted" id="who">กำลังตรวจสอบสิทธิ์...</p><div class="cards"><div class="card"><span>รายการทั้งหมด</span><b id="cTotal">0</b></div><div class="card"><span>OK รวม</span><b id="cOk">0</b></div><div class="card"><span>Observation รวม</span><b id="cObs">0</b></div><div class="card"><span>NG รวม</span><b id="cNg">0</b></div></div><section class="panel"><div class="toolbar"><input id="search" placeholder="ค้นหา Audit No., หน่วยงาน, Area, Level, Auditor, Auditee"><button class="btn" id="exportExcel" type="button">ดาวน์โหลด Excel</button><button class="btn primary" id="refresh">รีเฟรช</button></div><div class="table-wrap"><table><thead><tr><th>วันเวลาที่ส่ง</th><th>วันที่ Audit</th><th>หน่วยงาน</th><th>Line / Area</th><th>Level</th><th>Auditor</th><th>ผล</th><th class="right">จัดการ</th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" class="empty" hidden>ยังไม่มีข้อมูล Audit</div></section></main><dialog id="detail"><div class="modal-head"><b id="detailTitle">Audit detail</b><button class="btn" onclick="detail.close()">ปิด</button></div><div class="modal-body" id="detailBody"></div></dialog><script>
 let items=[];
 const searchInput=document.getElementById('search');
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -9,6 +9,161 @@ function db(){if(!window.firebase)throw new Error('โหลด Firebase ไม�
 async function boot(){requireAdmin();document.getElementById('who').textContent='เข้าสู่ระบบโดย '+(sessionStorage.getItem('lpa_admin_name')||'Kittiya.thongdee');await load();startAuditNotifications('lpaAudits','Manufacturing')}
 async function load(){requireAdmin();const snap=await db().ref('lpaAudits').once('value');items=Object.entries(snap.val()||{}).map(([id,x])=>({...x,id:x.id||id})).sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));render()}
 function auditScore(x){if(Number.isFinite(Number(x.summary?.scorePercent)))return Number(x.summary.scorePercent);const ok=Number(x.summary?.ok||0),observe=Number(x.summary?.observe||0),ng=Number(x.summary?.ng||0),scored=ok+observe+ng;return scored?Math.round(((ok*2+observe)/(scored*2))*1000)/10:0}
+
+function getFilteredAuditItemsForExport() {
+  const query = String(searchInput.value || "").trim().toLocaleLowerCase("th");
+  return items.filter(item => {
+    const meta = item.meta || {};
+    const searchable = [
+      meta.auditNo,
+      meta.unit,
+      meta.line,
+      meta.level,
+      meta.auditor,
+      meta.auditee,
+      item.createdAt
+    ].map(value => String(value || "")).join(" ").toLocaleLowerCase("th");
+    return searchable.includes(query);
+  });
+}
+
+function exportAuditScore(item) {
+  const summary = item.summary || {};
+  const storedScore = Number(summary.scorePercent);
+  if (Number.isFinite(storedScore)) return storedScore;
+  const ok = Number(summary.ok || 0);
+  const observation = Number(summary.observe || 0);
+  const ng = Number(summary.ng || 0);
+  const scored = ok + observation + ng;
+  return scored ? Math.round(((ok * 2 + observation) / (scored * 2)) * 1000) / 10 : 0;
+}
+
+function exportExcel() {
+  requireAdmin();
+
+  if (!window.XLSX) {
+    alert("ไม่สามารถโหลดระบบสร้างไฟล์ Excel ได้ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่");
+    return;
+  }
+
+  const exportItems = getFilteredAuditItemsForExport();
+  if (!exportItems.length) {
+    alert("ไม่มีข้อมูล Audit สำหรับดาวน์โหลด");
+    return;
+  }
+
+  const summaryRows = [];
+  const detailRows = [];
+  const answerLabels = {
+    ok: "OK",
+    observe: "Observation",
+    ng: "NG",
+    na: "N/A"
+  };
+
+  exportItems.forEach((item, index) => {
+    const meta = item.meta || {};
+    const summary = item.summary || {};
+    const state = item.state || {};
+    const answers = state.answers || {};
+    const comments = state.comments || {};
+    const images = state.images || {};
+    const questions = state.questions || {};
+    const customQuestions = state.custom || {};
+    const signatures = item.signatures || {};
+    const auditNo = meta.auditNo || item.id || "";
+
+    summaryRows.push({
+      "No.": index + 1,
+      "Audit No.": auditNo,
+      "Submitted At": item.createdAt || "",
+      "Audit Date": meta.auditDate || "",
+      "Unit / Function": meta.unit || "",
+      "Line / Area": meta.line || "",
+      "Level": meta.level || "",
+      "Auditor": meta.auditor || "",
+      "Auditee": meta.auditee || "",
+      "Score (%)": exportAuditScore(item),
+      "OK": Number(summary.ok || 0),
+      "Observation": Number(summary.observe || 0),
+      "NG": Number(summary.ng || 0),
+      "Auditor Signature": signatures.auditor ? "Yes" : "No",
+      "Auditee Signature": signatures.auditee ? "Yes" : "No"
+    });
+
+    const questionIds = Array.from(new Set([
+      ...Object.keys(answers),
+      ...Object.keys(comments),
+      ...Object.keys(images),
+      ...Object.keys(questions),
+      ...Object.keys(customQuestions)
+    ])).sort((a, b) => {
+      const first = Number(String(a).replace(/\D/g, ""));
+      const second = Number(String(b).replace(/\D/g, ""));
+      if (Number.isFinite(first) && Number.isFinite(second) && first !== second) return first - second;
+      return String(a).localeCompare(String(b));
+    });
+
+    if (!questionIds.length) {
+      detailRows.push({
+        "Audit No.": auditNo,
+        "Audit Date": meta.auditDate || "",
+        "Line / Area": meta.line || "",
+        "Level": meta.level || "",
+        "Auditor": meta.auditor || "",
+        "Auditee": meta.auditee || "",
+        "Question ID": "",
+        "Question": "",
+        "Result": "",
+        "Comment": "",
+        "Evidence Image": "No"
+      });
+    } else {
+      questionIds.forEach(questionId => {
+        const answer = answers[questionId] || "";
+        detailRows.push({
+          "Audit No.": auditNo,
+          "Audit Date": meta.auditDate || "",
+          "Line / Area": meta.line || "",
+          "Level": meta.level || "",
+          "Auditor": meta.auditor || "",
+          "Auditee": meta.auditee || "",
+          "Question ID": questionId,
+          "Question": questions[questionId] || customQuestions[questionId] || questionId,
+          "Result": answerLabels[answer] || answer || "",
+          "Comment": comments[questionId] || "",
+          "Evidence Image": images[questionId] ? "Yes" : "No"
+        });
+      });
+    }
+  });
+
+  const workbook = XLSX.utils.book_new();
+  const summarySheet = XLSX.utils.json_to_sheet(summaryRows);
+  const detailSheet = XLSX.utils.json_to_sheet(detailRows);
+
+  summarySheet["!cols"] = [
+    {wch:6},{wch:20},{wch:24},{wch:14},{wch:20},{wch:36},{wch:10},{wch:22},
+    {wch:22},{wch:12},{wch:8},{wch:14},{wch:8},{wch:18},{wch:18}
+  ];
+  detailSheet["!cols"] = [
+    {wch:20},{wch:14},{wch:36},{wch:10},{wch:22},{wch:22},{wch:12},{wch:65},
+    {wch:14},{wch:45},{wch:16}
+  ];
+
+  XLSX.utils.book_append_sheet(workbook, summarySheet, "Audit Summary");
+  XLSX.utils.book_append_sheet(workbook, detailSheet, "Audit Details");
+
+  const now = new Date();
+  const datePart = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("-");
+
+  XLSX.writeFile(workbook, "Manufacturing" + "_LPA_Audit_" + datePart + ".xlsx");
+}
+
 function render(){
   const q=String(searchInput.value||'').trim().toLocaleLowerCase('th');
   const list=items.filter(item=>{
@@ -31,7 +186,7 @@ function render(){
 }
 async function viewAudit(id){requireAdmin();const x=items.find(row=>row.id===id);if(!x)return alert('ไม่พบข้อมูล');if(window.markManufacturingAuditSeen)window.markManufacturingAuditSeen(id);detailTitle.textContent=`${x.meta.auditNo} · ${auditScore(x).toFixed(1)}%`;const labels={ok:'😊 OK',observe:'😐 Observation',ng:'😒 NG',na:'N/A'};const allIds=Array.from(new Set([...Object.keys(x.state?.answers||{}),...Object.keys(x.state?.comments||{}),...Object.keys(x.state?.images||{}),...Object.keys(x.state?.questions||{}),...Object.keys(x.state?.custom||{})])).sort((a,b)=>Number(a.slice(1))-Number(b.slice(1)));detailBody.innerHTML=`<div class="meta-grid"><div><b>วันที่ Audit</b><br>${esc(x.meta.auditDate)}</div><div><b>หน่วยงาน</b><br>${esc(x.meta.unit)}</div><div><b>Line / Area</b><br>${esc(x.meta.line)}</div><div><b>Level</b><br>${esc(x.meta.level)}</div><div><b>Auditor</b><br>${esc(x.meta.auditor)}</div><div><b>Auditee</b><br>${esc(x.meta.auditee||'-')}</div><div><b>คะแนนรวม</b><br><b style="color:#b91c1c">${auditScore(x).toFixed(1)}%</b></div><div><b>ส่งเมื่อ</b><br>${esc(fmtDate(x.createdAt))}</div></div><section class="signature-section"><div class="signature-section-title">ลายเซ็นยืนยัน / Final Confirmation</div><div class="signature-grid"><div class="signature-card"><b>Auditor Signature / ลายเซ็นผู้ตรวจ</b>${x.signatures?.auditor?`<img class="signature-image" src="${esc(x.signatures.auditor)}" alt="ลายเซ็น Auditor">`:'<div class="signature-missing">รายการนี้ไม่มีข้อมูลลายเซ็น</div>'}</div><div class="signature-card"><b>Auditee Signature / ลายเซ็นผู้รับการตรวจ</b>${x.signatures?.auditee?`<img class="signature-image" src="${esc(x.signatures.auditee)}" alt="ลายเซ็น Auditee">`:'<div class="signature-missing">รายการนี้ไม่มีข้อมูลลายเซ็น</div>'}</div></div></section>`+allIds.map(id=>{const a=x.state.answers?.[id]||'';const q=x.state.questions?.[id]||x.state.custom?.[id]||id;const image=x.state.images?.[id];return `<div class="question"><div>${esc(q)}</div><div class="answer ${esc(a)}">${esc(labels[a]||'ยังไม่ตอบ')}</div>${x.state.comments?.[id]?`<div class="muted">Comment: ${esc(x.state.comments[id])}</div>`:''}${image?`<img src="${image}" alt="รูปหลักฐาน" style="display:block;max-width:280px;max-height:220px;margin-top:8px;border-radius:8px;border:1px solid #dfe6ef;object-fit:contain">`:''}</div>`}).join('');detail.showModal()}
 async function removeAudit(id,no){requireAdmin();if(!confirm(`ลบข้อมูล ${no} ?`))return;await db().ref('lpaAudits/'+id).remove();await load()}
-searchInput.addEventListener('input',render);refresh.onclick=()=>load().catch(e=>alert(e.message));logout.onclick=()=>{sessionStorage.removeItem('lpa_admin');sessionStorage.removeItem('lpa_admin_name');location.replace('login.html')};boot().catch(e=>{console.error(e);if(e.message!=='Unauthorized')alert('โหลดข้อมูลไม่สำเร็จ: '+e.message)});
+searchInput.addEventListener('input',render);document.getElementById('exportExcel').addEventListener('click',exportExcel);refresh.onclick=()=>load().catch(e=>alert(e.message));logout.onclick=()=>{sessionStorage.removeItem('lpa_admin');sessionStorage.removeItem('lpa_admin_name');location.replace('login.html')};boot().catch(e=>{console.error(e);if(e.message!=='Unauthorized')alert('โหลดข้อมูลไม่สำเร็จ: '+e.message)});
 
 function startAuditNotifications(databasePath,auditLabel){
   if(window.__lpaNotificationStarted)return;
